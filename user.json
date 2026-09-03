@@ -1,0 +1,10 @@
+{
+    "name": "Ayn",
+    "role": "Developer",
+    "skills": [
+        "Python",
+        "Java",
+        "SQL"
+    ],
+    "is_active": true
+}
