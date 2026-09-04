@@ -371,6 +371,9 @@ pairs = [("brand", "BMW"), ("year", 2026), ("owner", None)]
 card = dict(pairs)
 print("Convert tuple into dict :",card)
 
+
+
+
     
 
 

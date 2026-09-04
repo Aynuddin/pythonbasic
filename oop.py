@@ -162,6 +162,216 @@ print("Book Json obj :",book_json)
 # Agin convert json object to python object using loads method
 book_dict = json.loads(book_json)
 print("Book dict :",book_dict)
-    
 
-    
+
+print("\n--- 5. ENCAPSULATION (Private Attributes & Getters/Setters) ---")
+# In Java:
+#   private double balance;
+#   public double getBalance() { return balance; }
+#   public void setBalance(double b) { this.balance = b; }
+#
+# In Python:
+# - Default: self.name            --> PUBLIC (accessible anywhere)
+# - Single underscore: self._age   --> PROTECTED (convention: internal use only)
+# - Double underscore: self.__pin  --> PRIVATE (name mangling: cannot be accessed directly outside class!)
+#
+# Pythonic Getters & Setters: We use the '@property' decorator!
+# This lets callers use standard dot syntax (account.balance = 500) while running validation under the hood!
+
+class SecureBankAccount:
+    def __init__(self, owner, balance):
+        self.owner = owner
+        self.__balance = balance  # Private attribute (note double underscore '__')
+
+    # GETTER using @property
+    # Now you can call: print(account.balance) WITHOUT parentheses!
+    @property
+    def balance(self):
+        return self.__balance
+
+    # SETTER using @<attribute>.setter
+    # Runs when you do: account.balance = 1000
+    @balance.setter
+    def balance(self, new_balance):
+        if new_balance >= 0:
+            self.__balance = new_balance
+            print(f"Balance successfully updated to: ${self.__balance}")
+        else:
+            print("Error: Balance cannot be negative!")
+
+secure_acc = SecureBankAccount("Ayn", 1000)
+print("Accessing balance via getter:", secure_acc.balance)
+
+# Updating via setter:
+secure_acc.balance = 1500  # Calls @balance.setter
+secure_acc.balance = -200  # Triggers error message
+
+# Trying to access the private attribute directly will FAIL:
+try:
+    print(secure_acc.__balance)
+except AttributeError as e:
+    print("Direct private access blocked:", e)
+
+
+print("\n--- 6. POLYMORPHISM (Many Forms / Method Overriding) ---")
+# In Java: Subclasses override parent methods and can be stored in Parent reference types.
+# In Python: Different classes can implement methods with the same name.
+# Python also uses "Duck Typing": 'If it walks like a duck and quacks like a duck, it's a duck!'
+
+class Dog:
+    def speak(self):
+        return "Woof! Woof!"
+
+class Cat:
+    def speak(self):
+        return "Meow!"
+
+class Cow:
+    def speak(self):
+        return "Moo!"
+
+# A single function that works polymorphically with ANY object that has a .speak() method:
+def animal_sound(animal):
+    print(f"Animal says: {animal.speak()}")
+
+animals = [Dog(), Cat(), Cow()]
+for a in animals:
+    animal_sound(a)
+
+
+print("\n--- 7. ABSTRACTION (Abstract Base Classes & Interfaces) ---")
+# In Java:
+#   abstract class PaymentGateway { abstract void pay(double amount); }
+#   interface PaymentGateway { void pay(double amount); }
+#
+# In Python:
+#   We import 'ABC' (Abstract Base Class) and '@abstractmethod' from the standard 'abc' module!
+#   Any child class MUST implement all @abstractmethod methods, otherwise Python will throw an error!
+
+from abc import ABC, abstractmethod
+
+class PaymentGateway(ABC):
+    @abstractmethod
+    def process_payment(self, amount):
+        """Every payment method must implement this!"""
+        pass
+
+    @abstractmethod
+    def refund(self, amount):
+        """Every payment method must implement this!"""
+        pass
+
+class CreditCardPayment(PaymentGateway):
+    def process_payment(self, amount):
+        print(f"Paid ${amount} using Credit Card.")
+
+    def refund(self, amount):
+        print(f"Refunded ${amount} back to Credit Card.")
+
+class UpiPayment(PaymentGateway):
+    def process_payment(self, amount):
+        print(f"Paid ${amount} instantly using UPI.")
+
+    def refund(self, amount):
+        print(f"Refunded ${amount} instantly to UPI ID.")
+
+# Testing Abstraction & Polymorphism together:
+payments = [CreditCardPayment(), UpiPayment()]
+for p in payments:
+    p.process_payment(250)
+    p.refund(50)
+
+
+# -------------------------------------------------------------
+# PRACTICE SECTION: ENCAPSULATION & POLYMORPHISM / ABSTRACTION
+#
+# Task 3 (Encapsulation):
+# Create a class 'Employee' with:
+# - An attribute 'name' (public)
+# - A private attribute '__salary' (initialized in __init__)
+# - A getter '@property def salary(self)' that returns __salary
+# - A setter '@salary.setter def salary(self, value)':
+#     - If value > 0, update __salary
+#     - Else print "Salary must be positive!"
+# - Test creating an employee, accessing salary, updating with a positive value,
+#   and trying to update with a negative value.
+#
+# Task 4 (Abstraction & Polymorphism):
+# - Create an abstract class 'Shape(ABC)' with an '@abstractmethod def area(self)'
+# - Create a subclass 'Circle(Shape)' with attribute 'radius'
+#   (Area formula: 3.14159 * radius * radius)
+# - Create a subclass 'Rectangle(Shape)' with attributes 'width' and 'height'
+#   (Area formula: width * height)
+# - Put both in a list and loop through them to print their areas!
+# -------------------------------------------------------------
+
+#Task 3
+
+class Employee:
+    def __init__(self,name,salary):
+        self.name = name
+        self.__salary=salary
+
+    #Getter
+    @property
+    def salary(self):
+        return self.__salary
+
+    @salary.setter
+    def salary(self, new_sal):
+        try:
+            if new_sal < 0:
+                raise ValueError("Salary must be positive")
+
+            self.__salary = new_sal
+            print(f"Salary successfully updated to: ${self.__salary}")
+        except ValueError as e:
+            print("Error:", e)
+
+
+emp = Employee("Ayn",2000)
+# Getting the salary
+print("Accessing Salary of employee via getter is : ", emp.salary)
+
+# updating positive (+) salary 
+emp.salary=25000
+#emp.salary=-200
+try:
+   print("Salary after increasing : ",emp.salary) 
+except AttributeError as e:
+    print(e)
+
+
+# Task 4
+
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+
+class Circle(Shape):
+    def __init__(self,radius):
+        self.radius = radius
+
+    def area(self):
+        return 3.14159 * self.radius * self.radius
+
+class Reactangle(Shape):
+    def __init__(self,height,width):
+        self.height = height
+        self.width = width
+
+    def area(self):
+        return self.height * self.width
+
+shapes = [Circle(5),Reactangle(5,10)]
+
+for shape in shapes:
+    print(f"Area : ", shape.area())
+
+        
+
+
+
