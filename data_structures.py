@@ -371,6 +371,62 @@ pairs = [("brand", "BMW"), ("year", 2026), ("owner", None)]
 card = dict(pairs)
 print("Convert tuple into dict :",card)
 
+# -----------SET ds--------------------
+
+# here will declare empty set
+emp_set = set()
+
+# add() func used to add element in set
+emp_set.add(1)
+emp_set.add(2)
+emp_set.add(1)
+emp_set.add(3)
+emp_set.add(4)
+emp_set.add(4)
+emp_set.add(5)
+
+print("Set elements : ",emp_set)
+
+# remove(x) and discard(x)
+# remove(x): used to remove element , but this throw error when x is not prsent in set, i.e KeyError
+# discard(x) : used to remove element but it will not throw error if x not present also
+
+emp_set.remove(4)
+print("after remove(x) with having element: ",emp_set)
+emp_set.discard(3)
+print("after discard with having element: ",emp_set)
+# remove(10) and discard(10) here 10 is not present in emp_set
+
+#emp_set.remove(10)
+emp_set.discard(10)
+print("after remove(x) not having element: ",emp_set)
+print("after discard(x) not having element: ",emp_set)
+
+s1={1,2,3}
+s2={3,4,5}
+
+print("Union of set : ", s1.union(s2) or s1|s2) # both element
+print("Intersection of set : ", s1.intersection(s2) or s1&s2) # common ele
+
+# pop() : Remove an arbitrary element from the set
+#         It will remove first element
+
+
+print("pop() : ", s1.pop())
+print("after remove element :", s1)
+
+
+l1=["Mango", "Banana", "Cherry", "Apple", "Mango"]
+l2 = ["orange","Pineapple", "Apple", "Banana", "Mango"]
+com_fru = set()
+for f1 in l1:
+    for f2 in l2:
+        if f1 == f2:
+            com_fru.add(f1)
+print("list1 and list2 common elements are : ",com_fru)
+
+
+
 
 
 

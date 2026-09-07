@@ -2,6 +2,9 @@
 # A function is a reusable block of code that performs a specific task.
 # Instead of rewriting the same code again and again, you write it once inside a function and call it whenever needed!
 
+#from _typeshed import importlib
+import helper_utils
+import helper_utils
 print("--- 1. DEFINING AND CALLING A FUNCTION ---")
 # Use the 'def' keyword to define a function, followed by its name and parentheses ()
 def say_hello():
@@ -88,5 +91,30 @@ def is_even(num):
 print(is_even(5))    
 
 #Task 3
+# check num is prime or not
+def is_prime(num):
+    if num < 2:
+        return False
+
+    for i in range(2, num):
+        #print("Print i: ",i)
+        if num % i == 0:
+            return False
+
+    return True
+print("Is prime : ",is_prime(5))
+print("Is prime : ",is_prime(4))
+
+
+numbers = [1,2,3,4,5,6,7,8,9,10]
+prime_num = []
+def isPrime(numbers):
+    for n in numbers:
+        if(is_prime(n)):
+            prime_num.append(n)
+    return prime_num
+
+print("Prime numbers : ",isPrime(numbers))
+        
 
 
